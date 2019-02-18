@@ -13,7 +13,9 @@ void PrintSignalValues(vpiHandle signal_iterator) {
     vpiHandle signal_handle;
     int signal_type;
     s_vpi_value current_value;
+    int count= 0;
     while( (signal_handle = vpi_scan(signal_iterator)) != NULL) {
+	count++;
 	signal_type = vpi_get(vpiType, signal_handle);
 	switch(signal_type) {
 	case vpiNet:
@@ -41,8 +43,14 @@ void PrintSignalValues(vpiHandle signal_iterator) {
 	    vpi_get_value(signal_handle, &current_value);
 	    std::cout << " Real " << vpi_get_str(vpiName, signal_handle) << " value is " << current_value.value.time->high << current_value.value.time->low << std::endl;
 	    break;
+	case vpiPort:
+	    current_value.format = vpiBinStrVal;
+	    vpi_get_value(signal_handle, &current_value);
+	    std::cout << "   Port " << vpi_get_str(vpiName, signal_handle) << std::endl;
+	    break;
 	}
     }
+    std::cout << "Count: " << count << std::endl;
 }
 
 static int ShowSignals_calltf(char* user_data) {
@@ -76,6 +84,12 @@ static int ShowSignals_calltf(char* user_data) {
     signal_iterator = vpi_iterate(vpiVariables, module_handle); //gets variables
     if(signal_iterator != NULL)
 	PrintSignalValues(signal_iterator);
+
+    std::cout << " PORTS: " << std::endl;
+    signal_iterator = vpi_iterate(vpiPort, module_handle); //gets variables
+    if(signal_iterator != NULL)
+	PrintSignalValues(signal_iterator);
+
     std::cout << std::endl;
     return 0;
 }

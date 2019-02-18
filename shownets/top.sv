@@ -43,10 +43,13 @@ module top;
       
       #10;
       $show_all_nets(add_0);
+      $show_all_nets(top);
       #10;
       $show_all_nets(add_0);
+      $show_all_nets(top);
       #100;
       $show_all_nets(add_0);
+      $show_all_nets(top);
       $finish;
       
    end

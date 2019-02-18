@@ -26,7 +26,7 @@ static int ShowNets_calltf(char* user_data) {
     current_time.type = vpiScaledRealTime;
     vpi_get_time(systf_handle, &current_time);
 
-    std::cout << "time: " << current_time.real << " nets in module " << vpi_get_str(vpiFullName, module_handle) << std::endl;
+    std::cout << "At time: " << current_time.real << " nets in module " << vpi_get_str(vpiFullName, module_handle) << std::endl;
 
     //obtain handles to nets in module and read current vlue
     net_iterator = vpi_iterate(vpiNet, module_handle);
